@@ -1,0 +1,8 @@
+data/
+checkpoints/
+.idea/
+.DS_Store
+__pycache__/
+logs/
+model_param.txt
+.ipynb_checkpoints/

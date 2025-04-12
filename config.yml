@@ -1,0 +1,43 @@
+mode: train                     # (str) train mode or predict mode
+model_dir: "./checkpoints/base"     # (str) directory path of model file (.pth)
+device: "cuda:0"                # (str) device name (cuda/cpu/mps/...)
+num_workers: 8
+
+# model setting
+image_size: 160                 # (int) image size after preprocess
+input_channels: 1               # (int) input image channels
+out_classes: 1                  # (int) classes of prediction
+crop_size: 112                  # (int) random crop size during training (or predicting which depends on config)
+enable_SE: True                 # (bool) enable SEBlock in model
+enable_SPP: True                # (bool) enable SPP module in model
+invert: True                    # (bool) enable inverted bottleneck in model
+
+load_model: './checkpoints/-Se/checkpoint_epoch1.pth'
+
+  # file path structure of dataset must be as shown below:
+  # data_path (train_data_path or test_data_path)
+  #  └─device (folder, can be multiple in same level with different names)
+  #     ├─Live (folder, must be the same name)
+  #     │  └─image.png
+  #     └─Fake (folder, must be the same name)
+  #        └─material (folder, can be multiple in same level with different names)
+  #           └─image.png
+
+# train setting
+train_data_path: "./data/training"    # (str) train set path
+epoch: 40                             # (int) epochs of training
+batch_size: 32                        # (int) mini-batch size of training
+lr: 0.001                             # (float) initial learning rate
+val_percent: 0.1                      # (float) percentage of validation set, between [0, 1)
+lr_schedule_step: 60000               # (int) steps of updating learning rate
+lr_schedule_gamma: 0.9                # (float) reduction factor of learning rate each lr_schedule_step
+optimizer: sgd                        # (str) optimizer (sgd or adamW)
+save_log: True                        # (bool) save training log
+continue_train: False                 # (bool) continue training on model loaded
+
+# predict setting
+pred_size: 160                        # (int) image size for predict
+test_data_path: "./data/testing"      # (str) train set path
+enable_crop: False                    # (bool) enable random crop while predicting
+round: 5                              # (int) rounds of prediction, if enable_crop: False, round will be fixed to 1
+save_result: True                     # (bool) save the prediction result
