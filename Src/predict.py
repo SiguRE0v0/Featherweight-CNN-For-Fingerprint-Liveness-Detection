@@ -18,7 +18,7 @@ def predict(config):
     out_classes = config.out_classes
     model = FLDNet(in_channels=in_channels, out_classes=out_classes, enable_se=config.enable_SE,
                    spp=config.enable_SPP, invert=config.invert).to(device)
-    state_dict = torch.load(config.load_model)
+    state_dict = torch.load(config.load_model，map_location=device)
     model.load_state_dict(state_dict)
     logging.info(f'Model loaded from {config.load_model}')
     transform = transforms.Compose([transforms.RandomCrop((160, 160))]) if config.enable_crop else None
